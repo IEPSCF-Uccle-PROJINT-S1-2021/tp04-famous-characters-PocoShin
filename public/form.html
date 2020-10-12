@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css">
+    <script src="characters.js" defer></script>
+    <title>TP04 - Personnages célèbres</title>
+  </head>
+  <body>
+    <h1>TP04 - Personnages célèbres</h1>
+
+    <div>
+      <div>
+        <span>Choix de personnages :</span>
+        <input id="avengers" type="checkbox" name="categorie" /><label for='personnages'>Avengers</label>
+        <input id="batman" type="checkbox" name="categorie" /><label for="personnages">Batman</label>
+        <input id="hp" type="checkbox" name="categorie" /><label for="personnages">Harry Potter</label>
+      </div>
+      </br>
+      <div>
+        <label for="fn">Trier par : Prénom</label>
+        <input id="fn" type="radio" name="fnln" value="fn" checked />
+        <label for="ln">Nom</label>
+        <input id="ln" type="radio" name="fnln" value="ln" />
+      </div>
+      </br>
+      <div class="bouton">
+        <button class="button">Afficher</button>
+      </div>
+    </div>
+    <p class="perso"></p>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "tp04_famous_characters",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IEPSCF-Uccle-PROJINT-S1-2021/tp04-famous-characters-PocoShin.git"
+  },
+  "author": "MALBRECQ Mathieu <mama1701@iepscf-uccle.be>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/IEPSCF-Uccle-PROJINT-S1-2021/tp04-famous-characters-PocoShin/issues"
+  },
+  "homepage": "https://github.com/IEPSCF-Uccle-PROJINT-S1-2021/tp04-famous-characters-PocoShin#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}
