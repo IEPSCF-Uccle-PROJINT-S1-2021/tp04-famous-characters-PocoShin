@@ -11,7 +11,8 @@ html
 th, td
 {
 	border: 1px solid black;
-	text-align: center;
+  text-align: center;
+  padding: 3px;
 }
 body
 {
@@ -22,4 +23,13 @@ body
 .bouton
 {
   text-align: center;
+}
+.erreur
+{
+  color: red;
+}
+
+table
+{
+  margin: auto;
 }

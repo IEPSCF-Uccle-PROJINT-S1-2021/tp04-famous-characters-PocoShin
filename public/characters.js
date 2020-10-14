@@ -5,8 +5,8 @@ bouton.addEventListener('click', affichePerso); //ajout d'un event de type 'clic
 
 function affichePerso()
 {
+  afficherListePersonnages();
   para.textContent = 'Chargement en cours...';
-  listePersonnages();
 }
 
 async function fetchAndDecode(url)
@@ -25,77 +25,93 @@ async function fetchAndDecode(url)
   }
 }
 
-async function listePersonnages()
+async function afficherListePersonnages()
 {
-  let avengers;
-  let batman;
-  let harry;
-
-  if(!document.getElementById("avengers").checked && !document.getElementById("batman").checked && !document.getElementById("hp").checked)
+  let table = [];
+  if(document.getElementById("avengers").checked)
   {
-    para.textContent = 'Pas de résultat';
+    try{
+      let avengers = fetchAndDecode('avengers.json');
+      table.push(avengers);
+    }
+    catch(e){
+      console.log("Problème avec le fetch"+e.message);
+    }
   }
-  else
+  if(document.getElementById("batman").checked)
   {
-    let table = [];
-    if(document.getElementById("avengers").checked)
-    {
-      try{
-        avengers = fetchAndDecode('avengers.json');
-        avengers.then((json) => { table = table.concat(json); console.log(table); });
-      }
-      catch(e){
-        console.log("Problème avec le fetch"+e.message);
-      }
+    try{
+      let batman = fetchAndDecode('batman.json');
+      table.push(batman);
     }
-    if(document.getElementById("batman").checked)
-    {
-      try{
-        batman = fetchAndDecode('batman.json');
-        batman.then((json) => { table = table.concat(json); console.log(table);});
-      }
-      catch(e){
-        console.log("Problème avec le fetch"+e.message);
-      }
+    catch(e){
+      console.log("Problème avec le fetch"+e.message);
     }
-    if(document.getElementById("hp").checked)
-    {
-      try{
-        harry = fetchAndDecode('harry_potter.json');
-        harry.then((json) => { table = table.concat(json); console.log(table);});
-      }
-      catch(e){
-        console.log("Problème avec le fetch"+e.message);
-      }
-    }
-
-    if(document.getElementById('ln').checked){
-      table.sort(function compare(a,b){
-        if(a.lastName<b.lastName)
-          return -1;
-        else if(a.lastName>b.lastName)
-         return -1;
-        else
-         return 0;
-      })
-    }
-    if(document.getElementById('fn').checked){
-      table.sort(function compare(a,b){
-        if(a.firstName<b.firstName)
-          return -1;
-        else if(a.firstName>b.firstName)
-         return -1;
-        else
-         return 0;
-      })
-    }
-
-    let htmlTable = '<table><tr><th>Prénom</th><th>Nom</th></tr>';
-    for(let i=0; i < table.length ; i++)
-    {
-      htmlTable+='<tr><td>table[i].firstName</td><td>table[i].lastName</td></tr>';
-    }
-    htmlTable+='</table>';
-    para.innerHTML = htmlTable;
   }
+  if(document.getElementById("hp").checked)
+  {
+    try{
+      let harry = fetchAndDecode('harry_potter.json');
+      table.push(harry);
+    }
+    catch(e){
+      console.log("Problème avec le fetch"+e.message);
+    }
+  }
+
+  Promise.all(table).then(values => {
+    if(values.length == 0){
+      para.innerHTML = '<p class="erreur">Pas de résultats</p>';
+
+    } else {
+      let finalTable = [];
+      for(i = 0; i < values.length; i++){
+        finalTable = finalTable.concat(values[i]);
+      }
+
+      //Tris
+      if(document.getElementById('ln').checked){
+        finalTable = sortByName(finalTable);
+      }
+      else if(document.getElementById('fn').checked){
+        finalTable = sortByFirstName(finalTable);
+      }
+
+      //Génération du tableau en HTML
+      let HTMLTable = '<table><tr><th>Prénom</th><th>Nom</th></tr>';
+      for(let i=0; i < finalTable.length ; i++)
+      {
+        HTMLTable+= `<tr><td>${finalTable[i].firstName}</td><td>${finalTable[i].lastName}</td></tr>`;
+      }
+      HTMLTable+='</table>';
+
+      para.innerHTML = HTMLTable;
+    };
+  })
+};
+
+function sortByName(tableau){
+  tableau.sort(function(a,b){
+    if(a.lastName > b.lastName){
+      return 1;
+    }
+    if(a.lastName < b.lastName){
+      return -1
+    }
+    return 0;
+  });
+  return tableau;
+}
+
+function sortByFirstName(tableau){
+  tableau.sort(function(a,b){
+    if(a.firstName > b.firstName){
+      return 1;
+    }
+    if(a.firstName < b.firstName){
+      return -1
+    }
+    return 0;
+  });
+  return tableau;
 }
